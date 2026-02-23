@@ -22,6 +22,15 @@ describe('Format Utilities', () => {
   });
 
   describe('XML', () => {
+    it('formats valid XML', () => {
+      const input = '<root><child>text</child></root>';
+      const formatted = formatXml(input);
+      // Depending on the xml-formatter default behavior, it should add line breaks and indentation
+      expect(formatted).toContain('<root>');
+      expect(formatted).toContain('\n  <child>text</child>\n');
+      expect(formatted).toContain('</root>');
+    });
+
     it('minifies valid XML', () => {
       const input = '<root>\n  <child>text</child>\n</root>';
       const minified = minifyXml(input);
