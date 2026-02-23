@@ -7,6 +7,10 @@ import { JwtDecoderModule } from './JwtDecoder';
 import { UuidGeneratorModule } from './UuidGenerator';
 import { HashGeneratorModule } from './HashGenerator';
 import { PasswordGeneratorModule } from './PasswordGenerator';
+import { RegexTesterModule } from './RegexTester';
+import { TextDiffModule } from './TextDiff';
+import { MarkdownPreviewModule } from './MarkdownPreview';
+import { StringUtilitiesModule } from './StringUtilities';
 
 export const allModules = [
   JsonFormatterModule,
@@ -18,4 +22,8 @@ export const allModules = [
   UuidGeneratorModule,
   HashGeneratorModule,
   PasswordGeneratorModule,
+  RegexTesterModule,
+  TextDiffModule,
+  MarkdownPreviewModule,
+  StringUtilitiesModule,
 ];

@@ -21,6 +21,7 @@
     "xml-formatter": "^3.6.3"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
     "@tauri-apps/cli": "^1.5.11",
     "@types/crypto-js": "^4.2.2",
     "@types/he": "^1.2.3",
