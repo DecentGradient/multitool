@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { MultitoolModule } from '../types/MultitoolModule';
 import { Code2 } from 'lucide-react';
-import format from 'xml-formatter';
+import { formatXml, minifyXml } from '../utils/formatUtils';
 
 const XmlFormatterComponent: React.FC = () => {
   const [input, setInput] = useState('');
@@ -11,20 +11,7 @@ const XmlFormatterComponent: React.FC = () => {
 
   const handleFormat = () => {
     try {
-      // Validate
-      const parser = new DOMParser();
-      const dom = parser.parseFromString(input, "application/xml");
-      const parseError = dom.querySelector("parsererror");
-      if (parseError) {
-        throw new Error(parseError.textContent || "Invalid XML");
-      }
-      
-      const formatted = format(input, {
-        indentation: '  ',
-        collapseContent: true,
-        lineSeparator: '\n'
-      });
-      setOutput(formatted);
+      setOutput(formatXml(input));
       setError(null);
     } catch (e: any) {
       setError(e.message);
@@ -33,16 +20,7 @@ const XmlFormatterComponent: React.FC = () => {
 
   const handleMinify = () => {
     try {
-      const parser = new DOMParser();
-      const dom = parser.parseFromString(input, "application/xml");
-      const parseError = dom.querySelector("parsererror");
-      if (parseError) {
-        throw new Error(parseError.textContent || "Invalid XML");
-      }
-      
-      // Minify by removing line breaks and spaces between tags
-      const minified = input.replace(/\>[\r\n ]+\</g, "><").trim();
-      setOutput(minified);
+      setOutput(minifyXml(input));
       setError(null);
     } catch (e: any) {
       setError(e.message);

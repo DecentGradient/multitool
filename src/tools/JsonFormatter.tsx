@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { MultitoolModule } from '../types/MultitoolModule';
 import { FileJson } from 'lucide-react';
+import { formatJson, minifyJson } from '../utils/formatUtils';
 
 const JsonFormatterComponent: React.FC = () => {
   const [input, setInput] = useState('');
@@ -10,8 +11,7 @@ const JsonFormatterComponent: React.FC = () => {
 
   const handleFormat = () => {
     try {
-      const parsed = JSON.parse(input);
-      setOutput(JSON.stringify(parsed, null, 2));
+      setOutput(formatJson(input));
       setError(null);
     } catch (e: any) {
       setError(e.message);
@@ -20,8 +20,7 @@ const JsonFormatterComponent: React.FC = () => {
 
   const handleMinify = () => {
     try {
-      const parsed = JSON.parse(input);
-      setOutput(JSON.stringify(parsed));
+      setOutput(minifyJson(input));
       setError(null);
     } catch (e: any) {
       setError(e.message);

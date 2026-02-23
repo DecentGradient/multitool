@@ -2,32 +2,17 @@ import React, { useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { MultitoolModule } from '../types/MultitoolModule';
 import { Type } from 'lucide-react';
+import {
+  toCamelCase, toSnakeCase, toKebabCase, toTitleCase,
+  sortLinesAZ, sortLinesZA, reverseLines, removeEmptyLines,
+  trimLines, removeDuplicateLines
+} from '../utils/stringUtils';
 
 const StringUtilitiesComponent: React.FC = () => {
   const [input, setInput] = useState('');
 
   const handleTransform = (transform: (val: string) => string) => {
     setInput(transform(input));
-  };
-
-  const toCamelCase = (str: string) => {
-    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
-      return index === 0 ? word.toLowerCase() : word.toUpperCase();
-    }).replace(/\s+/g, '');
-  };
-
-  const toSnakeCase = (str: string) => {
-    const match = str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
-    return match ? match.map(x => x.toLowerCase()).join('_') : str;
-  };
-
-  const toKebabCase = (str: string) => {
-    const match = str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
-    return match ? match.map(x => x.toLowerCase()).join('-') : str;
-  };
-
-  const toTitleCase = (str: string) => {
-    return str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
   };
 
   const buttons = [
@@ -37,12 +22,12 @@ const StringUtilitiesComponent: React.FC = () => {
     { label: 'camelCase', onClick: () => handleTransform(toCamelCase) },
     { label: 'snake_case', onClick: () => handleTransform(toSnakeCase) },
     { label: 'kebab-case', onClick: () => handleTransform(toKebabCase) },
-    { label: 'Sort Lines (A-Z)', onClick: () => handleTransform(s => s.split('\n').sort().join('\n')) },
-    { label: 'Sort Lines (Z-A)', onClick: () => handleTransform(s => s.split('\n').sort().reverse().join('\n')) },
-    { label: 'Reverse Lines', onClick: () => handleTransform(s => s.split('\n').reverse().join('\n')) },
-    { label: 'Remove Empty Lines', onClick: () => handleTransform(s => s.split('\n').filter(l => l.trim() !== '').join('\n')) },
-    { label: 'Trim Lines', onClick: () => handleTransform(s => s.split('\n').map(l => l.trim()).join('\n')) },
-    { label: 'Remove Duplicate Lines', onClick: () => handleTransform(s => Array.from(new Set(s.split('\n'))).join('\n')) },
+    { label: 'Sort Lines (A-Z)', onClick: () => handleTransform(sortLinesAZ) },
+    { label: 'Sort Lines (Z-A)', onClick: () => handleTransform(sortLinesZA) },
+    { label: 'Reverse Lines', onClick: () => handleTransform(reverseLines) },
+    { label: 'Remove Empty Lines', onClick: () => handleTransform(removeEmptyLines) },
+    { label: 'Trim Lines', onClick: () => handleTransform(trimLines) },
+    { label: 'Remove Duplicate Lines', onClick: () => handleTransform(removeDuplicateLines) },
   ];
 
   return (
