@@ -3,9 +3,10 @@ import { listen } from "@tauri-apps/api/event";
 import { MultitoolModule } from "./types/MultitoolModule";
 import { Wrench, LayoutDashboard } from "lucide-react";
 import { CommandPalette } from "./components/CommandPalette";
+import { allModules } from "./tools";
 
-// Placeholder module registry
-const modules: MultitoolModule[] = [];
+// Load modules
+const modules: MultitoolModule[] = allModules;
 
 export default function App() {
   const [activeToolId, setActiveToolId] = useState<string | null>(null);
