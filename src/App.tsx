@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { listen } from "@tauri-apps/api/event";
 import { MultitoolModule } from "./types/MultitoolModule";
 import { Wrench, LayoutDashboard } from "lucide-react";
+import { CommandPalette } from "./components/CommandPalette";
 
 // Placeholder module registry
 const modules: MultitoolModule[] = [];
@@ -9,6 +10,7 @@ const modules: MultitoolModule[] = [];
 export default function App() {
   const [activeToolId, setActiveToolId] = useState<string | null>(null);
   const [clipboardAlert, setClipboardAlert] = useState<string | null>(null);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
 
   useEffect(() => {
     // Listen for background clipboard changes broadcasted from Tauri
@@ -37,7 +39,19 @@ export default function App() {
           <Wrench className="w-16 h-16 mb-4 opacity-50" />
           <h2 className="text-xl font-semibold">Welcome to Multitool</h2>
           <p className="mt-2">Select a tool from the sidebar to get started.</p>
-          <p className="mt-1 text-sm text-slate-500">Press Cmd/Ctrl + K to search.</p>
+          <div className="mt-4 text-sm text-slate-500 flex items-center space-x-2">
+            <span>Press</span>
+            <kbd className="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-300">Cmd/Ctrl</kbd>
+            <span>+</span>
+            <kbd className="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-slate-300">K</kbd>
+            <span>to search.</span>
+          </div>
+          <button 
+            className="mt-6 px-4 py-2 bg-slate-800 border border-slate-700 text-slate-200 rounded-md hover:bg-slate-700 transition-colors"
+            onClick={() => setIsPaletteOpen(true)}
+          >
+            Open Command Palette
+          </button>
         </div>
       );
     }
@@ -84,6 +98,13 @@ export default function App() {
           {renderContent()}
         </div>
       </div>
+      
+      <CommandPalette 
+        modules={modules} 
+        isOpen={isPaletteOpen} 
+        setIsOpen={setIsPaletteOpen} 
+        onSelect={setActiveToolId} 
+      />
     </div>
   );
 }
